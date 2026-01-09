@@ -1,15 +1,20 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Always use the process.env.API_KEY directly for initialization.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Kiểm tra sự tồn tại của API_KEY trước khi khởi tạo
+const apiKey = process.env.API_KEY || "";
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export const getCoffeeRecommendation = async (userInput: string) => {
+  if (!ai) {
+    return "Chào bạn! Hiện tại hệ thống AI đang được bảo trì. Bạn có thể thử món Revital Signature của chúng tôi nhé!";
+  }
+
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Bạn là "Revital Sommelier" - chuyên gia tư vấn cà phê cho quán Revital Coffee. 
-      Hãy dựa vào yêu cầu của khách hàng sau đây để đề xuất một loại đồ uống phù hợp từ thực đơn (Revital Signature, Latte Hạnh Nhân, Trà Sen Vàng, Espresso, Matcha). 
+      Hãy dựa vào yêu cầu của khách hàng sau đây để đề xuất một loại đồ uống phù hợp từ thực đơn. 
       Yêu cầu khách: "${userInput}"
       Hãy trả lời bằng tiếng Việt, giọng điệu thân thiện, sang trọng và ngắn gọn.`,
       config: {
@@ -17,7 +22,6 @@ export const getCoffeeRecommendation = async (userInput: string) => {
         topP: 0.9,
       },
     });
-    // Extract text directly from the .text property of GenerateContentResponse.
     return response.text;
   } catch (error) {
     console.error("Gemini API Error:", error);
