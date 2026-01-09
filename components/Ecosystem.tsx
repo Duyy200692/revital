@@ -38,21 +38,20 @@ const Ecosystem: React.FC = () => {
 
               <div className="aspect-[3/4] overflow-hidden relative" onClick={() => setSelectedServiceId(service.id)}>
                 <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"/>
-                {/* Enhanced Gradient for Readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
               </div>
 
               <div className="absolute inset-0 p-8 flex flex-col justify-end text-white pointer-events-none">
                 <div className="space-y-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <div className="space-y-2">
-                    <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-brand font-black uppercase tracking-widest bg-emerald-700/80 text-white`}>EXPERIENCE</span>
+                  <div className="space-y-1">
+                    <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-brand font-black uppercase tracking-widest ${service.color}`}>{service.id === 'coffee' ? 'Main' : 'Experience'}</span>
                     <h4 className="text-3xl font-brand font-bold tracking-tight">{service.title}</h4>
                     <p className="text-primary font-bold text-sm italic">{service.tagline}</p>
                   </div>
-                  <p className="text-gray-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-3">{service.description}</p>
+                  <p className="text-gray-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">{service.description}</p>
                   <div className="pt-2">
-                    <button onClick={() => setSelectedServiceId(service.id)} className="inline-flex items-center gap-2 text-white font-brand font-black text-xs uppercase tracking-widest group-hover:text-primary transition-colors pointer-events-auto">
-                      KHÁM PHÁ NGAY
+                    <button onClick={() => setSelectedServiceId(service.id)} className="inline-flex items-center gap-2 text-white font-brand font-black text-xs uppercase tracking-widest hover:text-primary transition-colors pointer-events-auto">
+                      Khám phá ngay
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                     </button>
                   </div>
@@ -63,7 +62,7 @@ const Ecosystem: React.FC = () => {
         </div>
       </div>
 
-      {/* Admin Edit Modal */}
+      {/* Admin Edit Modal for Service */}
       {editingId && editingService && (
         <div className="fixed inset-0 z-[400] bg-dark/80 backdrop-blur-sm flex items-center justify-center p-6">
           <div className="bg-white rounded-[2.5rem] w-full max-w-2xl p-8 lg:p-12 shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
@@ -92,12 +91,12 @@ const Ecosystem: React.FC = () => {
         </div>
       )}
 
-      {/* View Details Modal */}
+      {/* View Details Modal (giữ nguyên logic cũ nhưng lấy data từ store) */}
       {selectedServiceId && selectedService && (
         <div className="fixed inset-0 z-[200] flex justify-end">
           <div className="absolute inset-0 bg-dark/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedServiceId(null)}></div>
           <div className="relative w-full max-w-xl bg-white h-full shadow-2xl animate-slide-in-right overflow-y-auto custom-scrollbar">
-            <button onClick={() => setSelectedServiceId(null)} className="absolute top-6 right-6 z-10 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl hover:rotate-90 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <button onClick={() => setSelectedServiceId(null)} className="absolute top-6 right-6 z-10 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             <div className="relative h-72"><img src={selectedService.image} className="w-full h-full object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div></div>
             <div className="p-8 lg:p-12 -mt-20 relative z-10">
               <span className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-brand font-black uppercase tracking-widest text-white mb-6 ${selectedService.color}`}>{selectedService.id === 'coffee' ? 'Revital Experience' : 'Premium Partner'}</span>
