@@ -11,8 +11,8 @@ const firebaseConfig = {
   appId: "1:744776004260:web:a3ebb98702367f66ceec31"
 };
 
-// Initialize Firebase App as a Singleton
+// Khởi tạo Firebase App (Singleton pattern)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// Export Firestore instance using the modular SDK
+// Xuất Firestore instance
 export const db = getFirestore(app);

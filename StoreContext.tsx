@@ -10,7 +10,7 @@ import {
   setDoc, 
   updateDoc, 
   deleteDoc, 
-  writeBatch
+  writeBatch 
 } from "firebase/firestore";
 
 interface ServiceDetail {
@@ -124,31 +124,31 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     if (!db) return;
 
-    // Listen to Site Data changes using standard modular imports
+    // Lắng nghe dữ liệu theo chuẩn Modular
     const unsubCamp = onSnapshot(doc(db, "siteData", "campaigns"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         if (data && data.list) setCampaigns(data.list);
       }
-    }, (error) => console.error("Firebase Campaigns error:", error));
+    });
 
     const unsubProd = onSnapshot(collection(db, "products"), (snapshot) => {
-      const prods = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Product));
+      const prods = snapshot.docs.map(d => ({ ...d.data(), id: d.id } as Product));
       if (prods.length > 0) setProducts(prods);
-    }, (error) => console.error("Firebase Products error:", error));
+    });
 
     const unsubServ = onSnapshot(doc(db, "siteData", "services"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         if (data && data.list) setServices(data.list);
       }
-    }, (error) => console.error("Firebase Services error:", error));
+    });
 
     const unsubAbout = onSnapshot(doc(db, "siteData", "about"), (docSnap) => {
       if (docSnap.exists()) {
         setAboutData(docSnap.data() as AboutData);
       }
-    }, (error) => console.error("Firebase About error:", error));
+    });
 
     return () => {
       unsubCamp();
@@ -173,7 +173,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const deleteProduct = async (id: string) => {
-    if (confirm('Bạn có chắc chắn muốn xóa món này không?')) {
+    if (confirm('Xóa món này?')) {
       await deleteDoc(doc(db, "products", id));
     }
   };
