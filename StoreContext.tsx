@@ -5,13 +5,13 @@ import { HERO_CAMPAIGNS, PRODUCTS } from './constants';
 import { db } from './firebase';
 import { 
   collection, 
-  deleteDoc, 
-  doc, 
   onSnapshot, 
+  doc, 
   setDoc, 
   updateDoc, 
-  writeBatch 
-} from 'firebase/firestore';
+  deleteDoc, 
+  writeBatch
+} from "firebase/firestore";
 
 interface ServiceDetail {
   id: string;
@@ -124,6 +124,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     if (!db) return;
 
+    // Listen to Site Data changes using standard modular imports
     const unsubCamp = onSnapshot(doc(db, "siteData", "campaigns"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -188,11 +189,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const syncFullData = async () => {
     const batch = writeBatch(db);
-    await setDoc(doc(db, "siteData", "campaigns"), { list: HERO_CAMPAIGNS });
-    await setDoc(doc(db, "siteData", "about"), aboutData);
+    batch.set(doc(db, "siteData", "campaigns"), { list: HERO_CAMPAIGNS });
+    batch.set(doc(db, "siteData", "about"), aboutData);
     for (const p of PRODUCTS) {
-      const pDoc = doc(db, "products", p.id);
-      batch.set(pDoc, p);
+      batch.set(doc(db, "products", p.id), p);
     }
     await batch.commit();
   };

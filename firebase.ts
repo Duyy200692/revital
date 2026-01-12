@@ -1,5 +1,5 @@
 
-import { initializeApp, getApp, getApps } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -11,8 +11,8 @@ const firebaseConfig = {
   appId: "1:744776004260:web:a3ebb98702367f66ceec31"
 };
 
-// Đảm bảo app được khởi tạo đúng một lần duy nhất
+// Initialize Firebase App as a Singleton
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// Khởi tạo Firestore từ app đã xác nhận
+// Export Firestore instance using the modular SDK
 export const db = getFirestore(app);
