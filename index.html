@@ -58,6 +58,11 @@
         border-radius: 10px;
       }
       
+      /* 3D Perspective Helpers */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      
       @keyframes slideInUp {
         from { transform: translateY(20px); opacity: 0; }
         to { transform: translateY(0); opacity: 1; }
@@ -65,10 +70,17 @@
       .animate-slide-in-up {
         animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
+
+      /* Floating Animation for Special Items */
+      @keyframes floating {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(2deg); }
+      }
+      .animate-floating {
+        animation: floating 4s ease-in-out infinite;
+      }
     </style>
     
-  
-
 
   <script type="importmap">
 {

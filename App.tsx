@@ -8,6 +8,7 @@ import Ecosystem from './components/Ecosystem';
 import CoffeeAI from './components/CoffeeAI';
 import Footer from './components/Footer';
 import AdminControls from './components/AdminControls';
+import SignatureSection from './components/SignatureSection';
 import { StoreProvider } from './StoreContext';
 
 const AppContent: React.FC = () => {
@@ -28,6 +29,11 @@ const AppContent: React.FC = () => {
       <main>
         <section id="home">
           <Hero />
+        </section>
+
+        {/* Phần món đặc biệt với hiệu ứng 3D được đưa lên trên Menu */}
+        <section id="signature">
+          <SignatureSection />
         </section>
 
         <section id="menu" className="py-24 bg-white">

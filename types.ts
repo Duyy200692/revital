@@ -9,6 +9,16 @@ export interface Product {
   popular?: boolean;
 }
 
+export interface SignatureItem {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  image: string;
+  color: string;
+  price: string;
+}
+
 export interface MenuItem {
   label: string;
   href: string;

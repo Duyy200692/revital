@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product, Campaign } from './types';
+import { Product, Campaign, SignatureItem } from './types';
 import { HERO_CAMPAIGNS, PRODUCTS } from './constants';
 import { db } from './firebase';
 import { 
@@ -41,6 +41,7 @@ interface StoreContextType {
   campaigns: Campaign[];
   products: Product[];
   services: ServiceDetail[];
+  signatureItems: SignatureItem[];
   aboutData: AboutData;
   isAdmin: boolean;
   setIsAdmin: (admin: boolean) => void;
@@ -49,17 +50,58 @@ interface StoreContextType {
   addProduct: (product: Omit<Product, 'id'> | Product) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
   updateService: (id: string, data: Partial<ServiceDetail>) => Promise<void>;
+  updateSignatureItem: (id: string, data: Partial<SignatureItem>) => Promise<void>;
   updateAbout: (data: Partial<AboutData>) => Promise<void>;
   syncFullData: () => Promise<void>;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
+const DEFAULT_SIGNATURES: SignatureItem[] = [
+  {
+    id: 's1',
+    name: 'Revital Peach Fizz',
+    tagline: 'Mùa Hè Sảng Khoái',
+    description: 'Chiết xuất từ đào tươi mọng nước, kết hợp với soda craft tạo nên tầng vị thanh mát bùng nổ.',
+    image: 'https://i.pinimg.com/736x/80/7e/4d/807e4d843818e5f294025a1734268e64.jpg',
+    color: 'from-orange-300 to-rose-400',
+    price: '65.000đ'
+  },
+  {
+    id: 's2',
+    name: 'Cold Brew Đậm Đặc',
+    tagline: 'Sự Tỉnh Táo Tối Đa',
+    description: 'Cà phê đặc sản ủ lạnh 24h, mang hương vị hạt dẻ và chocolate đắng nhẹ quyến rũ.',
+    image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&q=80&w=800',
+    color: 'from-zinc-700 to-black',
+    price: '75.000đ'
+  },
+  {
+    id: 's3',
+    name: 'Matcha Tuyết San',
+    tagline: 'Vị Trà Tây Bắc',
+    description: 'Sự kết hợp giữa Matcha Nhật Bản và bột trà Tuyết San cổ thụ, béo ngậy vị sữa yến mạch.',
+    image: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&q=80&w=800',
+    color: 'from-emerald-400 to-teal-700',
+    price: '68.000đ'
+  },
+  {
+    id: 's4',
+    name: 'Rosemary Latte',
+    tagline: 'Hương Thơm Nồng Nàn',
+    description: 'Sự kết hợp độc đáo giữa hương thảo tươi và cà phê sữa truyền thống.',
+    image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=800',
+    color: 'from-pink-300 to-purple-500',
+    price: '59.000đ'
+  }
+];
+
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   
   const [campaigns, setCampaigns] = useState<Campaign[]>(HERO_CAMPAIGNS);
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [signatureItems, setSignatureItems] = useState<SignatureItem[]>(DEFAULT_SIGNATURES);
   const [services, setServices] = useState<ServiceDetail[]>([
     {
       id: 'coffee',
@@ -124,7 +166,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     if (!db) return;
 
-    // Lắng nghe dữ liệu theo chuẩn Modular
     const unsubCamp = onSnapshot(doc(db, "siteData", "campaigns"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -144,6 +185,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     });
 
+    const unsubSig = onSnapshot(doc(db, "siteData", "signatures"), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && data.list) setSignatureItems(data.list);
+      }
+    });
+
     const unsubAbout = onSnapshot(doc(db, "siteData", "about"), (docSnap) => {
       if (docSnap.exists()) {
         setAboutData(docSnap.data() as AboutData);
@@ -154,6 +202,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       unsubCamp();
       unsubProd();
       unsubServ();
+      unsubSig();
       unsubAbout();
     };
   }, []);
@@ -183,6 +232,11 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     await setDoc(doc(db, "siteData", "services"), { list: newList });
   };
 
+  const updateSignatureItem = async (id: string, data: Partial<SignatureItem>) => {
+    const newList = signatureItems.map(s => s.id === id ? { ...s, ...data } : s);
+    await setDoc(doc(db, "siteData", "signatures"), { list: newList });
+  };
+
   const updateAbout = async (data: Partial<AboutData>) => {
     await setDoc(doc(db, "siteData", "about"), { ...aboutData, ...data });
   };
@@ -191,6 +245,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const batch = writeBatch(db);
     batch.set(doc(db, "siteData", "campaigns"), { list: HERO_CAMPAIGNS });
     batch.set(doc(db, "siteData", "about"), aboutData);
+    batch.set(doc(db, "siteData", "signatures"), { list: DEFAULT_SIGNATURES });
+    batch.set(doc(db, "siteData", "services"), { list: services });
     for (const p of PRODUCTS) {
       batch.set(doc(db, "products", p.id), p);
     }
@@ -199,8 +255,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   return (
     <StoreContext.Provider value={{ 
-      campaigns, products, services, aboutData, isAdmin, setIsAdmin,
-      updateCampaign, updateProduct, addProduct, deleteProduct, updateService, updateAbout,
+      campaigns, products, services, signatureItems, aboutData, isAdmin, setIsAdmin,
+      updateCampaign, updateProduct, addProduct, deleteProduct, updateService, updateSignatureItem, updateAbout,
       syncFullData
     }}>
       {children}
