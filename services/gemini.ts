@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 // getCoffeeRecommendation provides coffee suggestions based on user input using Gemini.
@@ -20,7 +19,8 @@ export const getCoffeeRecommendation = async (userInput: string) => {
     });
 
     // DO: Access the generated text via the .text property directly (not a method).
-    return response.text;
+    // Handle the case where response.text might be undefined or empty.
+    return response.text ?? "Xin lỗi, tôi không tìm thấy lựa chọn phù hợp lúc này. Hãy thử hỏi về các loại trà hoặc cà phê đặc sản của chúng tôi.";
   } catch (error) {
     console.error("Gemini API Error:", error);
     return "Xin lỗi, tôi đang bận pha cà phê một chút. Bạn có thể thử Revital Signature - món bán chạy nhất của chúng tôi nhé!";

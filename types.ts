@@ -17,6 +17,7 @@ export interface SignatureItem {
   image: string;
   color: string;
   price: string;
+  props?: string[]; // Danh sách URL ảnh nguyên liệu (đào, hạt cà phê, v.v.)
 }
 
 export interface MenuItem {

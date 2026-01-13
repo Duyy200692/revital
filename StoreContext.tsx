@@ -66,8 +66,12 @@ const DEFAULT_SIGNATURES: SignatureItem[] = [
     tagline: 'Mùa Hè Sảng Khoái',
     description: 'Chiết xuất từ đào tươi mọng nước, kết hợp với soda craft tạo nên tầng vị thanh mát bùng nổ.',
     image: 'https://i.pinimg.com/736x/80/7e/4d/807e4d843818e5f294025a1734268e64.jpg',
-    color: 'from-orange-300 to-rose-400',
-    price: '65.000đ'
+    color: '#FF6500',
+    price: '65.000đ',
+    props: [
+      'https://png.pngtree.com/png-vector/20230911/ourmid/pngtree-fresh-peach-slices-with-green-leaves-png-image_10031124.png',
+      'https://png.pngtree.com/png-clipart/20230504/original/pngtree-ice-cube-crystal-clear-png-image_9139151.png'
+    ]
   },
   {
     id: 's2',
@@ -75,8 +79,11 @@ const DEFAULT_SIGNATURES: SignatureItem[] = [
     tagline: 'Sự Tỉnh Táo Tối Đa',
     description: 'Cà phê đặc sản ủ lạnh 24h, mang hương vị hạt dẻ và chocolate đắng nhẹ quyến rũ.',
     image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&q=80&w=800',
-    color: 'from-zinc-700 to-black',
-    price: '75.000đ'
+    color: '#1A1A1A',
+    price: '75.000đ',
+    props: [
+      'https://static.vecteezy.com/system/resources/previews/027/215/676/non_2x/coffee-beans-falling-roasted-coffee-beans-on-transparent-background-ai-generated-png.png'
+    ]
   },
   {
     id: 's3',
@@ -84,26 +91,11 @@ const DEFAULT_SIGNATURES: SignatureItem[] = [
     tagline: 'Vị Trà Tây Bắc',
     description: 'Sự kết hợp giữa Matcha Nhật Bản và bột trà Tuyết San cổ thụ, béo ngậy vị sữa yến mạch.',
     image: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&q=80&w=800',
-    color: 'from-emerald-400 to-teal-700',
-    price: '68.000đ'
-  },
-  {
-    id: 's4',
-    name: 'Rosemary Latte',
-    tagline: 'Hương Thơm Nồng Nàn',
-    description: 'Sự kết hợp độc đáo giữa hương thảo tươi và cà phê sữa truyền thống.',
-    image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=800',
-    color: 'from-pink-300 to-purple-500',
-    price: '59.000đ'
-  },
-  {
-    id: 's5',
-    name: 'Tropical Sunset',
-    tagline: 'Rực Rỡ Hoàng Hôn',
-    description: 'Hương vị trái cây nhiệt đới mix cùng trà hoa hibiscus đỏ rực, giàu vitamin và năng lượng.',
-    image: 'https://images.unsplash.com/photo-1544145945-f904253d0c71?auto=format&fit=crop&q=80&w=800',
-    color: 'from-orange-500 to-red-600',
-    price: '72.000đ'
+    color: '#4ade80',
+    price: '68.000đ',
+    props: [
+      'https://png.pngtree.com/png-vector/20230912/ourmid/pngtree-matcha-powder-spoon-png-image_10025754.png'
+    ]
   }
 ];
 
@@ -140,20 +132,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       email: 'picklebounce25@gmail.com',
       bookingLink: 'https://datlich.alobo.vn/san/sport_pickle_bounce',
       facebookLink: 'https://www.facebook.com/picklebounce.vn',
-      gallery: []
-    },
-    {
-      id: 'pilates',
-      title: 'BEAM Pilates',
-      tagline: 'Sự Tĩnh Lặng Cao Cấp',
-      description: 'Phòng tập Pilates chuẩn quốc tế với không gian tinh tế.',
-      longDescription: 'BEAM Pilates mang đến trải nghiệm tập luyện chuyên sâu với máy móc hiện đại và đội ngũ huấn luyện viên tâm huyết.',
-      image: 'https://cdn.prod.website-files.com/675034c8257ed13034dc8c73/67fe7192f767bde84c47b63b_Lo%CC%9B%CC%81p%201-2.png',
-      color: 'bg-emerald-700',
-      address: 'Phòng 7, Beam Academy - Quận 1',
-      phone: '090 977 3133',
-      email: 'beam.pilates@gmail.com',
-      facebookLink: 'https://www.facebook.com/beampilates.vn',
       gallery: []
     }
   ]);

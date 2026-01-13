@@ -4,82 +4,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Revital Coffee | Năng Lượng Phục Hồi - 306/5 Vườn Lài</title>
-    <meta name="description" content="Revital Coffee - Điểm đến của cà phê đặc sản, Pickleball và Pilates. Trải nghiệm không gian hiện đại và năng lượng phục hồi tại Quận 12." />
+    <title>Revital Coffee | Năng Lượng Phục Hồi</title>
+    <meta name="description" content="Revital Coffee - Điểm đến của cà phê đặc sản, Pickleball và Pilates." />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
-      window.process = {
-        env: {
-          API_KEY: "" 
-        }
-      };
-
+      window.process = { env: { API_KEY: "" } };
       tailwind.config = {
         theme: {
           extend: {
-            colors: {
-              primary: '#FF6500',
-              secondary: '#FFFFFF',
-              dark: '#1A1A1A',
-              accent: '#F5F5F7'
-            },
-            fontFamily: {
-              sans: ['Be Vietnam Pro', 'sans-serif'],
-              brand: ['Lexend', 'sans-serif'],
-            }
+            colors: { primary: '#FF6500', dark: '#1A1A1A', accent: '#F5F5F7' },
+            fontFamily: { sans: ['Be Vietnam Pro', 'sans-serif'], brand: ['Lexend', 'sans-serif'] }
           }
         }
       }
     </script>
     <style>
       html { scroll-behavior: smooth; }
-      body { 
-        font-family: 'Be Vietnam Pro', sans-serif; 
-        background-color: #FFFFFF; 
-        color: #1A1A1A; 
-        -webkit-font-smoothing: antialiased;
-        margin: 0;
-        padding: 0;
-      }
+      body { font-family: 'Be Vietnam Pro', sans-serif; background: #FFF; color: #1A1A1A; margin: 0; overflow-x: hidden; }
       #root { min-height: 100vh; }
-      .font-brand { font-family: 'Lexend', sans-serif; }
-      .glass-nav {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-      }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #FF6500;
-        border-radius: 10px;
-      }
       
-      .perspective-1000 {
-        perspective: 1000px;
+      /* Cinematic Easing like Olipop */
+      .ease-olipop { transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+
+      /* Keyframes for Floating Props */
+      @keyframes prop-float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        33% { transform: translateY(-30px) rotate(10deg); }
+        66% { transform: translateY(15px) rotate(-5deg); }
       }
-      
-      @keyframes slideInUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+      .animate-prop { animation: prop-float 10s ease-in-out infinite; }
+
+      /* Entrance Burst */
+      @keyframes burst-out {
+        0% { transform: scale(0) translate(0, 0); opacity: 0; }
+        100% { transform: scale(1) translate(var(--tw-translate-x), var(--tw-translate-y)); opacity: 1; }
       }
-      .animate-slide-in-up {
-        animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      .animate-burst { animation: burst-out 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+
+      /* Background Aura */
+      .aura-glow {
+        filter: blur(120px);
+        mix-blend-mode: soft-light;
+        pointer-events: none;
       }
 
-      @keyframes floating {
-        0%, 100% { transform: translateY(0) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(2deg); }
-      }
-      .animate-floating {
-        animation: floating 4s ease-in-out infinite;
-      }
+      .perspective-3000 { perspective: 3000px; }
+      .preserve-3d { transform-style: preserve-3d; }
     </style>
-    
     <script type="importmap">
     {
       "imports": {
